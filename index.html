@@ -80,7 +80,6 @@
         }
 
         .tab-panel {
-            /* A visibilidade agora é controlada pelo atributo 'hidden' no HTML/JS */
             animation: fadeIn 0.5s ease-in-out;
             color: var(--texto-claro); 
             min-height: 720px;
@@ -120,8 +119,8 @@
 
     <div class="presentation-container">
         <div class="tab-navigation">
+            <!-- AJUSTE: Aba "Agenda" removida -->
             <button class="tab-btn active" data-target="panel-1">Início</button>
-            <button class="tab-btn" data-target="panel-2">Agenda</button>
             <button class="tab-btn" data-target="panel-3">Contexto</button>
             <button class="tab-btn" data-target="panel-4">Empresas</button>
             <button class="tab-btn" data-target="panel-5">Valor</button>
@@ -142,20 +141,7 @@
                 </div>
             </div>
 
-            <div id="panel-2" class="tab-panel" hidden>
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-4xl font-bold mb-2 text-white">Estrutura da Apresentação</h2>
-                    <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
-                    
-                    <div class="space-y-6">
-                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">1</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Contexto e Oportunidade</h3><p class="text-gray-300">Cenário atual e oportunidade de parceria estratégica</p></div><i class="fas fa-lightbulb text-2xl" style="color: var(--verde-vibrante);"></i></div>
-                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">2</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Empresas e Proposta de Valor</h3><p class="text-gray-300">Competências das empresas e valor integrado</p></div><i class="fas fa-handshake text-2xl" style="color: var(--verde-vibrante);"></i></div>
-                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">3</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Estrutura e Modelo Operacional</h3><p class="text-gray-300">Composição societária e funcionamento integrado</p></div><i class="fas fa-cogs text-2xl" style="color: var(--verde-vibrante);"></i></div>
-                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">4</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Viabilidade Financeira</h3><p class="text-gray-300">Projeções, investimentos e retorno esperado</p></div><i class="fas fa-chart-line text-2xl" style="color: var(--verde-vibrante);"></i></div>
-                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">5</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Implementação e Próximos Passos</h3><p class="text-gray-300">Cronograma, proteções e recomendações</p></div><i class="fas fa-rocket text-2xl" style="color: var(--verde-vibrante);"></i></div>
-                    </div>
-                </div>
-            </div>
+            <!-- AJUSTE: Painel "Agenda" removido -->
 
             <div id="panel-3" class="tab-panel" hidden>
                 <h2 class="text-4xl font-bold mb-2 text-white">Contexto e Oportunidade</h2>
@@ -232,15 +218,17 @@
                  <div class="flex items-center h-full">
                     <div class="w-1/2 pr-8">
                         <div class="bg-slate-800/50 rounded-2xl p-8 shadow-lg border border-slate-700">
-                            <h3 class="text-2xl font-bold mb-6 text-center text-white">Composição Societária</h3>
+                            <!-- AJUSTE: Título atualizado para refletir a nova composição -->
+                            <h3 class="text-2xl font-bold mb-6 text-center text-white">Composição Societária Igualitária</h3>
                             <div style="height: 400px;"><canvas id="societaryChart"></canvas></div>
                         </div>
                     </div>
                     <div class="w-1/2 pl-8">
                         <div class="space-y-6">
-                            <div class="company-card live-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-blue-400 rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">Li.Ve - 40%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Metodologias, marca, carteira de clientes</p><p class="text-gray-300"><strong>Justificativa:</strong> Liderança estratégica e ecossistema de parceiros</p></div>
-                            <div class="company-card ugestor-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-verde-vibrante rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">U-gestor - 35%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Sistema ERP, estrutura contábil, equipe técnica</p><p class="text-gray-300"><strong>Justificativa:</strong> Base tecnológica e estrutura operacional robusta</p></div>
-                            <div class="company-card up380-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-cinza-neutro rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">UP380 - 25%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Carteira de 100+ clientes, operação BPO</p><p class="text-gray-300"><strong>Justificativa:</strong> Base consolidada de clientes e operação estabelecida</p></div>
+                            <!-- AJUSTE: Textos atualizados para 33.33% -->
+                            <div class="company-card live-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-blue-400 rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">Li.Ve - 33.33%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Metodologias, marca, carteira de clientes</p><p class="text-gray-300"><strong>Justificativa:</strong> Liderança estratégica e ecossistema de parceiros</p></div>
+                            <div class="company-card ugestor-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-verde-vibrante rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">U-gestor - 33.33%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Sistema ERP, estrutura contábil, equipe técnica</p><p class="text-gray-300"><strong>Justificativa:</strong> Base tecnológica e estrutura operacional robusta</p></div>
+                            <div class="company-card up380-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-cinza-neutro rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">UP380 - 33.33%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Carteira de 100+ clientes, operação BPO</p><p class="text-gray-300"><strong>Justificativa:</strong> Base de clientes consolidada e operação estabelecida</p></div>
                         </div>
                     </div>
                 </div>
@@ -290,17 +278,13 @@
 
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // Gerencia o estado 'active' do botão
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
 
-                    // CORREÇÃO: Lógica de abas trocada para usar o atributo 'hidden'
-                    // Esconde todos os painéis
                     tabPanels.forEach(panel => {
                         panel.hidden = true;
                     });
 
-                    // Mostra o painel alvo
                     const targetPanelId = button.dataset.target;
                     const targetPanel = document.getElementById(targetPanelId);
                     if (targetPanel) {
@@ -330,7 +314,8 @@
                     data: {
                         labels: ['Li.Ve', 'U-gestor', 'UP380'],
                         datasets: [{
-                            data: [40, 35, 25],
+                            // AJUSTE: Dados do gráfico atualizados para 33.33% cada
+                            data: [33.33, 33.33, 33.33],
                             backgroundColor: ['#3b82f6', '#00e800', '#9ca3af'],
                             borderWidth: 0,
                             cutout: '60%'
@@ -348,7 +333,9 @@
                                 } 
                             },
                             tooltip: { 
-                                callbacks: { label: (c) => `${c.label}: ${c.parsed}%` },
+                                callbacks: { 
+                                    label: (c) => `${c.label}: ${c.parsed.toFixed(2)}%` 
+                                },
                                 bodyColor: '#e2e8f0',
                                 titleColor: '#ffffff'
                             }
@@ -357,7 +344,6 @@
                 });
             }
 
-            // Garante que o estado inicial está correto
             const initialActiveButton = document.querySelector('.tab-btn.active');
             if (initialActiveButton) {
                 const targetPanelId = initialActiveButton.dataset.target;
