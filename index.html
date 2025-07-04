@@ -5,27 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposta de Negócio: Parceria Estratégica</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Poppins & Merriweather -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
     
     <style>
-        /* Estilos Globais e de Slides com a ID Visual da Live */
         :root {
             --azul-petroleo: #06192a;
             --verde-vibrante: #00e800;
+            --verde-escuro: #15803d; 
             --cinza-claro: #f4f4f4;
             --cinza-neutro: #64748b;
+            --texto-principal-escuro: #334155;
+            --texto-claro: #e2e8f0;
             --branco: #ffffff;
             --font-primaria: 'Poppins', sans-serif;
             --font-secundaria: 'Merriweather', serif;
@@ -33,336 +31,297 @@
 
         body {
             font-family: var(--font-primaria);
-            background-color: #f0f2f5;
+            background-color: var(--azul-petroleo);
+            color: var(--cinza-claro);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300e800' fill-opacity='0.05'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         .presentation-container {
             width: 100%;
             max-width: 1280px;
-            min-height: 720px;
             margin: 2rem auto;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            background-color: var(--azul-petroleo);
             border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 1px solid #334155;
         }
 
-        .slide {
-            width: 100%;
-            min-height: 720px;
-            position: relative;
+        .tab-navigation {
+            display: flex;
+            overflow-x: auto;
+            background-color: #0f2a44;
+            padding: 0 1rem;
+            border-bottom: 1px solid #334155;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .tab-navigation::-webkit-scrollbar {
             display: none;
-            padding-bottom: 50px;
-            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .slide.active {
-            display: block;
+        .tab-btn {
+            padding: 0.65rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--texto-claro);
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--branco);
+        }
+
+        .tab-btn.active {
+            color: var(--verde-vibrante);
+            border-bottom-color: var(--verde-vibrante);
+        }
+
+        .tab-panel {
+            /* A visibilidade agora é controlada pelo atributo 'hidden' no HTML/JS */
+            animation: fadeIn 0.5s ease-in-out;
+            color: var(--texto-claro); 
+            min-height: 720px;
+            padding: 2.5rem 4rem;
+        }
+
+        .tab-panel.full-bleed {
+            padding: 0;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Estilos de Fundo e Texto */
-        .slide-title-bg { background-color: var(--azul-petroleo); }
-        .slide-content-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
-        .header-bar { background-color: var(--azul-petroleo); height: 80px; }
-        .text-verde-vibrante { color: var(--verde-vibrante); }
-        .bg-verde-vibrante { background-color: var(--verde-vibrante); }
-        .border-verde-vibrante { border-color: var(--verde-vibrante); }
-        .font-merriweather { font-family: var(--font-secundaria); }
-
-        /* Animações e Elementos Decorativos */
-        .floating-elements { position: absolute; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
-        .floating-circle { position: absolute; border-radius: 50%; background: rgba(0, 232, 0, 0.08); animation: float 8s ease-in-out infinite; }
-        .circle-1 { width: 150px; height: 150px; top: 10%; right: 15%; animation-delay: 0s; }
-        .circle-2 { width: 90px; height: 90px; bottom: 20%; left: 10%; animation-delay: 3s; }
-        .circle-3 { width: 60px; height: 60px; top: 60%; right: 25%; animation-delay: 6s; }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-25px) scale(1.05); }
-        }
-
-        /* Componentes */
-        .agenda-item { transition: all 0.3s ease; border-left: 4px solid var(--verde-vibrante); }
-        .agenda-item:hover { transform: translateX(10px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
-        .number-circle { background: var(--verde-vibrante); color: var(--azul-petroleo); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+        .agenda-item { transition: all 0.3s ease; border-left: 4px solid var(--verde-vibrante); background-color: #0f2a44; }
+        .agenda-item:hover { transform: translateX(10px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); background-color: #1e3a5f; }
+        .number-circle { background: var(--verde-vibrante); color: var(--azul-petroleo); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; flex-shrink: 0; }
         
-        .company-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-top: 4px solid; height: 100%; }
-        .company-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        .company-card { background: #0f2a44; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border-top: 4px solid; height: 100%; display: flex; flex-direction: column; }
+        .company-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); background-color: #1e3a5f; }
         .live-card { border-top-color: var(--azul-petroleo); }
         .ugestor-card { border-top-color: var(--verde-vibrante); }
         .up380-card { border-top-color: var(--cinza-neutro); }
-
-        /* Rodapé */
-        .footer { position: absolute; bottom: 12px; left: 32px; right: 32px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-        .footer-dark .text-color { color: #d1d5db; }
-        .footer-light .text-color { color: #4b5563; }
-
-        /* Controles de Navegação */
-        .nav-controls { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px; z-index: 50; }
-        .nav-btn { background-color: rgba(6, 25, 42, 0.6); color: white; border: 1px solid var(--verde-vibrante); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
-        .nav-btn:hover { background-color: var(--verde-vibrante); color: var(--azul-petroleo); transform: scale(1.1); }
-        .nav-btn:disabled { background-color: rgba(0, 0, 0, 0.2); cursor: not-allowed; border-color: transparent; }
+        
+        .footer-credit {
+            text-align: center;
+            padding: 1rem;
+            background-color: #0f2a44;
+            color: var(--cinza-neutro);
+            font-size: 0.875rem;
+            border-top: 1px solid #334155;
+        }
     </style>
 </head>
 <body>
 
     <div class="presentation-container">
-        <!-- Slide 1: Título -->
-        <div id="slide-1" class="slide active slide-title-bg flex items-center justify-center">
-            <div class="floating-elements">
-                <div class="floating-circle circle-1"></div>
-                <div class="floating-circle circle-2"></div>
-                <div class="floating-circle circle-3"></div>
-            </div>
-            <div class="text-center z-10 relative px-16">
-                <div class="mb-8">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-21.png" alt="Li.Ve Logo" class="w-32 h-32 mx-auto mb-6">
-                </div>
-                <h1 class="text-white text-7xl font-bold mb-6 leading-tight">Proposta de Negócio</h1>
-                <h2 class="text-verde-vibrante text-4xl font-semibold mb-8">Parceria Estratégica</h2>
-                <div class="text-white text-3xl font-medium mb-12">Li.Ve + U-gestor + UP380</div>
-                <div class="text-gray-300 text-xl">Julho 2025</div>
-            </div>
-            <div class="footer footer-dark">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-1" class="text-color">1 / 14</span>
-            </div>
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-target="panel-1">Início</button>
+            <button class="tab-btn" data-target="panel-2">Agenda</button>
+            <button class="tab-btn" data-target="panel-3">Contexto</button>
+            <button class="tab-btn" data-target="panel-4">Empresas</button>
+            <button class="tab-btn" data-target="panel-5">Valor</button>
+            <button class="tab-btn" data-target="panel-6">Estrutura</button>
+            <button class="tab-btn" data-target="panel-14">Conclusão</button>
         </div>
 
-        <!-- Todos os 14 slides são incluídos abaixo -->
-        
-        <!-- Slide 2: Agenda -->
-        <div id="slide-2" class="slide slide-content-bg">
-            <div class="header-bar flex items-center justify-between px-16">
-                <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Li.Ve Logo" class="h-12 mr-4">
-                    <h1 class="text-white text-3xl font-bold">Agenda</h1>
+        <div class="tab-content-area">
+            <div id="panel-1" class="tab-panel full-bleed">
+                <div class="flex items-center justify-center h-full min-h-[720px]">
+                    <div class="text-center z-10 relative px-16">
+                        <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-21.png" alt="Li.Ve Logo" class="w-32 h-32 mx-auto mb-6">
+                        <h1 class="text-7xl font-bold mb-6 leading-tight">Proposta de Negócio</h1>
+                        <h2 style="color: var(--verde-vibrante);" class="text-4xl font-semibold mb-8">Parceria Estratégica</h2>
+                        <p class="text-3xl font-medium mb-12">Li.Ve + U-gestor + UP380</p>
+                        <p class="text-gray-300 text-xl">Julho 2025</p>
+                    </div>
                 </div>
-                <div class="text-gray-300 text-lg">Proposta de Negócio</div>
             </div>
-            <div class="px-16 py-12">
+
+            <div id="panel-2" class="tab-panel" hidden>
                 <div class="max-w-4xl mx-auto">
-                    <div class="text-center mb-12">
-                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Estrutura da Apresentação</h2>
-                        <p class="text-xl text-gray-600">Proposta de parceria estratégica entre três empresas</p>
-                    </div>
+                    <h2 class="text-4xl font-bold mb-2 text-white">Estrutura da Apresentação</h2>
+                    <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
+                    
                     <div class="space-y-6">
-                        <div class="agenda-item bg-white rounded-lg p-6 flex items-center"><div class="number-circle mr-6">1</div><div class="flex-1"><h3 class="text-xl font-semibold text-gray-800 mb-2">Contexto e Oportunidade</h3><p class="text-gray-600">Cenário atual e oportunidade de parceria estratégica</p></div><i class="fas fa-lightbulb text-2xl text-verde-vibrante"></i></div>
-                        <div class="agenda-item bg-white rounded-lg p-6 flex items-center"><div class="number-circle mr-6">2</div><div class="flex-1"><h3 class="text-xl font-semibold text-gray-800 mb-2">Empresas e Proposta de Valor</h3><p class="text-gray-600">Competências das empresas e valor integrado</p></div><i class="fas fa-handshake text-2xl text-verde-vibrante"></i></div>
-                        <div class="agenda-item bg-white rounded-lg p-6 flex items-center"><div class="number-circle mr-6">3</div><div class="flex-1"><h3 class="text-xl font-semibold text-gray-800 mb-2">Estrutura e Modelo Operacional</h3><p class="text-gray-600">Composição societária e funcionamento integrado</p></div><i class="fas fa-cogs text-2xl text-verde-vibrante"></i></div>
-                        <div class="agenda-item bg-white rounded-lg p-6 flex items-center"><div class="number-circle mr-6">4</div><div class="flex-1"><h3 class="text-xl font-semibold text-gray-800 mb-2">Viabilidade Financeira</h3><p class="text-gray-600">Projeções, investimentos e retorno esperado</p></div><i class="fas fa-chart-line text-2xl text-verde-vibrante"></i></div>
-                        <div class="agenda-item bg-white rounded-lg p-6 flex items-center"><div class="number-circle mr-6">5</div><div class="flex-1"><h3 class="text-xl font-semibold text-gray-800 mb-2">Implementação e Próximos Passos</h3><p class="text-gray-600">Cronograma, proteções e recomendações</p></div><i class="fas fa-rocket text-2xl text-verde-vibrante"></i></div>
+                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">1</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Contexto e Oportunidade</h3><p class="text-gray-300">Cenário atual e oportunidade de parceria estratégica</p></div><i class="fas fa-lightbulb text-2xl" style="color: var(--verde-vibrante);"></i></div>
+                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">2</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Empresas e Proposta de Valor</h3><p class="text-gray-300">Competências das empresas e valor integrado</p></div><i class="fas fa-handshake text-2xl" style="color: var(--verde-vibrante);"></i></div>
+                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">3</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Estrutura e Modelo Operacional</h3><p class="text-gray-300">Composição societária e funcionamento integrado</p></div><i class="fas fa-cogs text-2xl" style="color: var(--verde-vibrante);"></i></div>
+                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">4</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Viabilidade Financeira</h3><p class="text-gray-300">Projeções, investimentos e retorno esperado</p></div><i class="fas fa-chart-line text-2xl" style="color: var(--verde-vibrante);"></i></div>
+                        <div class="agenda-item rounded-lg p-6 flex items-center"><div class="number-circle mr-6">5</div><div class="flex-1"><h3 class="text-xl font-semibold mb-2 text-white">Implementação e Próximos Passos</h3><p class="text-gray-300">Cronograma, proteções e recomendações</p></div><i class="fas fa-rocket text-2xl" style="color: var(--verde-vibrante);"></i></div>
                     </div>
                 </div>
             </div>
-            <div class="footer footer-light">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-2" class="text-color">2 / 14</span>
-            </div>
-        </div>
 
-        <!-- Slide 3: Contexto e Oportunidade -->
-        <div id="slide-3" class="slide slide-content-bg">
-            <div class="header-bar flex items-center justify-between px-16">
-                <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Li.Ve Logo" class="h-12 mr-4">
-                    <h1 class="text-white text-3xl font-bold">Contexto e Oportunidade</h1>
-                </div>
-                <div class="text-gray-300 text-lg">Proposta de Negócio</div>
-            </div>
-            <div class="px-16 py-8 flex">
-                <div class="w-1/2 pr-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6"><i class="fas fa-lightbulb text-verde-vibrante mr-3"></i>Cenário Atual</h2>
-                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-                        <h3 class="text-xl font-semibold text-blue-800 mb-4">Proposta Simplificada</h3>
-                        <p class="text-gray-700 mb-4">Após análise da proposta original envolvendo 7 empresas, identificamos uma oportunidade de <span class="font-semibold text-blue-800">simplificação estratégica</span> focando nas 3 empresas com maior sinergia natural.</p>
-                        <div class="flex items-center"><div class="w-3 h-3 bg-verde-vibrante rounded-full mr-2"></div><p class="text-gray-700"><span class="font-semibold">Menor complexidade</span> = Implementação mais rápida</p></div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Complementaridade Perfeita</h3>
-                    <p class="text-gray-700 mb-6">As três empresas selecionadas formam uma cadeia de valor completa, desde consultoria estratégica até operação financeira, passando por tecnologia e sistemas.</p>
-                    <div class="bg-white rounded-lg p-5 shadow-md">
-                        <div class="flex items-center mb-3"><i class="fas fa-check-circle text-green-600 mr-3 text-xl"></i><p class="text-gray-700 font-medium">Criação de CNPJ em Goiás com benefícios fiscais</p></div>
-                        <div class="flex items-center"><i class="fas fa-check-circle text-green-600 mr-3 text-xl"></i><p class="text-gray-700 font-medium">Acordo societário robusto para proteção mútua</p></div>
-                    </div>
-                </div>
-                <div class="w-1/2 pl-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6"><i class="fas fa-rocket text-verde-vibrante mr-3"></i>Oportunidade de Mercado</h2>
-                    <div class="space-y-4 mb-8">
-                        <div class="agenda-item bg-white rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4"><i class="fas fa-users text-blue-800 text-xl"></i></div><div><h4 class="text-lg font-semibold text-gray-800 mb-1">Base de Clientes Consolidada</h4><p class="text-gray-600">Acesso imediato a 100+ clientes da UP380 para cross-selling</p></div></div>
-                        <div class="agenda-item bg-white rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4"><i class="fas fa-puzzle-piece text-blue-800 text-xl"></i></div><div><h4 class="text-lg font-semibold text-gray-800 mb-1">Sinergia Natural</h4><p class="text-gray-600">Integração perfeita entre ERP, consultoria e BPO financeiro</p></div></div>
-                        <div class="agenda-item bg-white rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4"><i class="fas fa-map-marked-alt text-blue-800 text-xl"></i></div><div><h4 class="text-lg font-semibold text-gray-800 mb-1">Posicionamento Regional</h4><p class="text-gray-600">Liderança no mercado do Centro-Oeste com benefícios fiscais</p></div></div>
-                    </div>
-                    <div class="bg-green-50 border-l-4 border-verde-vibrante p-5 rounded-r-lg"><h4 class="text-lg font-semibold text-green-700 mb-2">Proposta de Valor Única</h4><p class="text-green-800">Li.Ve e UP380 ofereceriam o U-gestor como ERP para clientes elegíveis, enquanto a U-gestor integraria os serviços de consultoria, BPO e controladoria das outras empresas.</p></div>
-                </div>
-            </div>
-            <div class="footer footer-light">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-3" class="text-color">3 / 14</span>
-            </div>
-        </div>
-        
-        <!-- Slide 4: Empresas Parceiras -->
-        <div id="slide-4" class="slide slide-content-bg">
-            <div class="header-bar flex items-center justify-between px-16">
-                <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Li.Ve Logo" class="h-12 mr-4">
-                    <h1 class="text-white text-3xl font-bold">Empresas Parceiras</h1>
-                </div>
-                <div class="text-gray-300 text-lg">Proposta de Negócio</div>
-            </div>
-            <div class="px-16 py-10">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-3">Três Empresas Complementares</h2>
-                    <p class="text-xl text-gray-600">Combinação estratégica de competências para solução integrada</p>
-                </div>
-                <div class="grid grid-cols-3 gap-8 mt-8">
-                    <div class="company-card live-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-azul-petroleo rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">L</div><h3 class="text-2xl font-bold text-azul-petroleo">Li.Ve</h3></div><p class="text-gray-700 mb-5">Consultoria estratégica liderada por Luiz Portal com foco em estruturação empresarial e educação corporativa.</p><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-star text-azul-petroleo mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Consultoria Estratégica</span><span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Educação Empresarial</span></div><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-plus-circle text-azul-petroleo mr-2"></i>Diferencial</h4><p class="text-gray-700">Ecossistema de parceiros e marca consolidada.</p></div>
-                    <div class="company-card ugestor-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-verde-vibrante rounded-full flex items-center justify-center text-azul-petroleo text-2xl font-bold mr-4">U</div><h3 class="text-2xl font-bold text-green-600">U-gestor</h3></div><p class="text-gray-700 mb-5">Empresa de tecnologia especializada em ERP e soluções contábeis para PMEs.</p><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-star text-green-600 mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-green-100 text-green-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Sistema ERP</span><span class="bg-green-100 text-green-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Contabilidade</span></div><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-plus-circle text-green-600 mr-2"></i>Diferencial</h4><p class="text-gray-700">Plataforma tecnológica robusta e equipe técnica.</p></div>
-                    <div class="company-card up380-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-cinza-neutro rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">UP</div><h3 class="text-2xl font-bold text-cinza-neutro">UP380</h3></div><p class="text-gray-700 mb-5">Especialista em BPO financeiro e controladoria com mais de 100 clientes ativos.</p><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-star text-cinza-neutro mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">BPO Financeiro</span><span class="bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Controladoria</span></div><h4 class="text-lg font-semibold text-gray-800 mb-3"><i class="fas fa-plus-circle text-cinza-neutro mr-2"></i>Diferencial</h4><p class="text-gray-700">Base consolidada de clientes e operação estabelecida.</p></div>
-                </div>
-            </div>
-            <div class="footer footer-light">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-4" class="text-color">4 / 14</span>
-            </div>
-        </div>
+            <div id="panel-3" class="tab-panel" hidden>
+                <h2 class="text-4xl font-bold mb-2 text-white">Contexto e Oportunidade</h2>
+                <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
 
-        <!-- Slide 5: Proposta de Valor Integrada -->
-        <div id="slide-5" class="slide slide-content-bg">
-             <div class="header-bar flex items-center justify-between px-16">
-                <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Li.Ve Logo" class="h-12 mr-4">
-                    <h1 class="text-white text-3xl font-bold">Proposta de Valor Integrada</h1>
+                <div class="flex h-full items-start">
+                    <div class="w-1/2 pr-8">
+                        <h3 class="text-2xl font-bold text-white mb-6"><i class="fas fa-lightbulb mr-3" style="color: var(--verde-vibrante);"></i>Cenário Atual</h3>
+                        <div class="bg-blue-900/50 border border-blue-500/50 rounded-xl p-6 mb-8">
+                            <h4 class="text-xl font-semibold text-blue-300 mb-4">Proposta Simplificada</h4>
+                            <p class="text-gray-300 mb-4">Após análise da proposta original envolvendo 7 empresas, identificamos uma oportunidade de <span class="font-semibold text-blue-300">simplificação estratégica</span> focando nas 3 empresas com maior sinergia natural.</p>
+                            <div class="flex items-center"><div class="w-3 h-3 bg-verde-vibrante rounded-full mr-2"></div><p class="text-gray-300"><span class="font-semibold">Menor complexidade</span> = Implementação mais rápida</p></div>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 text-white">Complementaridade Perfeita</h4>
+                        <p class="text-gray-300 mb-6">As três empresas selecionadas formam uma cadeia de valor completa, desde consultoria estratégica até operação financeira, passando por tecnologia e sistemas.</p>
+                        <div class="bg-slate-800 rounded-lg p-5 shadow-md">
+                            <div class="flex items-center mb-3"><i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i><p class="font-medium text-gray-200">Criação de CNPJ em Goiás com benefícios fiscais</p></div>
+                            <div class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i><p class="font-medium text-gray-200">Acordo societário robusto para proteção mútua</p></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 pl-8">
+                        <h3 class="text-2xl font-bold text-white mb-6"><i class="fas fa-rocket mr-3" style="color: var(--verde-vibrante);"></i>Oportunidade de Mercado</h3>
+                        <div class="space-y-4 mb-8">
+                            <div class="agenda-item rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-900/70 rounded-full flex items-center justify-center mr-4"><i class="fas fa-users text-blue-300 text-xl"></i></div><div><h4 class="text-lg font-semibold mb-1 text-white">Base de Clientes Consolidada</h4><p class="text-gray-300">Acesso imediato a 100+ clientes da UP380 para cross-selling</p></div></div>
+                            <div class="agenda-item rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-900/70 rounded-full flex items-center justify-center mr-4"><i class="fas fa-puzzle-piece text-blue-300 text-xl"></i></div><div><h4 class="text-lg font-semibold mb-1 text-white">Sinergia Natural</h4><p class="text-gray-300">Integração perfeita entre ERP, consultoria e BPO financeiro</p></div></div>
+                            <div class="agenda-item rounded-lg p-5 flex items-start"><div class="flex-shrink-0 w-12 h-12 bg-blue-900/70 rounded-full flex items-center justify-center mr-4"><i class="fas fa-map-marked-alt text-blue-300 text-xl"></i></div><div><h4 class="text-lg font-semibold mb-1 text-white">Posicionamento Regional</h4><p class="text-gray-300">Liderança no mercado do Centro-Oeste com benefícios fiscais</p></div></div>
+                        </div>
+                        <div class="bg-green-900/50 border-l-4 border-verde-vibrante p-5 rounded-r-lg"><h4 class="text-lg font-semibold text-green-300 mb-2">Proposta de Valor Única</h4><p class="text-gray-200">Li.Ve e UP380 ofereceriam o U-gestor como ERP para clientes elegíveis, enquanto a U-gestor integraria os serviços de consultoria, BPO e controladoria das outras empresas.</p></div>
+                    </div>
                 </div>
-                <div class="text-gray-300 text-lg">Proposta de Negócio</div>
             </div>
-            <div class="px-16 py-8">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-3">Sinergia de Competências</h2>
-                    <p class="text-xl text-gray-600">Criando valor através da integração estratégica</p>
+
+            <div id="panel-4" class="tab-panel" hidden>
+                <h2 class="text-4xl font-bold mb-2 text-white">As Empresas</h2>
+                <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
+                
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="company-card live-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-azul-petroleo rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4 border border-slate-500">L</div><h3 class="text-2xl font-bold text-white">Li.Ve</h3></div><p class="text-gray-300 mb-5">Consultoria estratégica liderada por Luiz Portal com foco em estruturação empresarial e educação corporativa.</p><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-star text-blue-400 mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-blue-900/70 text-blue-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Consultoria Estratégica</span><span class="bg-blue-900/70 text-blue-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Educação Empresarial</span></div><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-plus-circle text-blue-400 mr-2"></i>Diferencial</h4><p class="text-gray-300">Ecossistema de parceiros e marca consolidada.</p></div>
+                    <div class="company-card ugestor-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-verde-vibrante rounded-full flex items-center justify-center text-azul-petroleo text-2xl font-bold mr-4">U</div><h3 class="text-2xl font-bold text-white">U-gestor</h3></div><p class="text-gray-300 mb-5">Empresa de tecnologia especializada em ERP e soluções contábeis para PMEs.</p><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-star text-green-400 mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-green-900/70 text-green-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Sistema ERP</span><span class="bg-green-900/70 text-green-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Contabilidade</span></div><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-plus-circle text-green-400 mr-2"></i>Diferencial</h4><p class="text-gray-300">Plataforma tecnológica robusta e equipe técnica.</p></div>
+                    <div class="company-card up380-card"><div class="flex items-center mb-5"><div class="w-12 h-12 bg-cinza-neutro rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">UP</div><h3 class="text-2xl font-bold text-white">UP380</h3></div><p class="text-gray-300 mb-5">Especialista em BPO financeiro e controladoria com mais de 100 clientes ativos.</p><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-star text-gray-400 mr-2"></i>Principais Expertises</h4><div class="mb-5 flex flex-wrap"><span class="bg-gray-700 text-gray-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">BPO Financeiro</span><span class="bg-gray-700 text-gray-300 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full">Controladoria</span></div><h4 class="text-lg font-semibold mb-3 text-white"><i class="fas fa-plus-circle text-gray-400 mr-2"></i>Diferencial</h4><p class="text-gray-300">Base consolidada de clientes e operação estabelecida.</p></div>
                 </div>
+            </div>
+
+            <div id="panel-5" class="tab-panel" hidden>
+                 <h2 class="text-4xl font-bold mb-2 text-white">Proposta de Valor</h2>
+                 <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
+
                 <div class="flex justify-center items-center mb-10">
-                    <div class="bg-white rounded-2xl p-6 shadow-lg w-full max-w-5xl"><div class="flex justify-between items-center"><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-azul-petroleo rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-lightbulb text-3xl text-white"></i></div><h3 class="text-xl font-bold text-azul-petroleo mb-2">Li.Ve</h3><p class="text-gray-600">Consultoria Estratégica</p></div><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-verde-vibrante rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-cogs text-3xl text-azul-petroleo"></i></div><h3 class="text-xl font-bold text-green-600 mb-2">U-gestor</h3><p class="text-gray-600">ERP e Contabilidade</p></div><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-cinza-neutro rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-chart-line text-3xl text-white"></i></div><h3 class="text-xl font-bold text-cinza-neutro mb-2">UP380</h3><p class="text-gray-600">BPO e Controladoria</p></div></div><div class="flex justify-center mt-8 mb-4"><div class="w-2/3"><div class="relative h-0.5 bg-gray-400"><div class="absolute right-0 -top-1 w-0 h-0 border-l-8 border-l-gray-400 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div></div></div></div><div class="text-center"><div class="inline-block bg-gradient-to-r from-azul-petroleo via-green-600 to-cinza-neutro text-white px-8 py-3 rounded-full font-bold text-xl">Solução Empresarial Completa</div></div></div>
+                    <div class="bg-slate-800/50 rounded-2xl p-6 shadow-lg w-full max-w-5xl border border-slate-700"><div class="flex justify-between items-center"><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-azul-petroleo rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-blue-400"><i class="fas fa-lightbulb text-3xl text-blue-300"></i></div><h3 class="text-xl font-bold text-white mb-2">Li.Ve</h3><p class="text-gray-300">Consultoria Estratégica</p></div><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-verde-vibrante rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-cogs text-3xl text-azul-petroleo"></i></div><h3 class="text-xl font-bold text-white mb-2">U-gestor</h3><p class="text-gray-300">ERP e Contabilidade</p></div><div class="text-center px-4 w-1/3"><div class="w-20 h-20 bg-cinza-neutro rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-chart-line text-3xl text-white"></i></div><h3 class="text-xl font-bold text-white mb-2">UP380</h3><p class="text-gray-300">BPO e Controladoria</p></div></div><div class="flex justify-center mt-8 mb-4"><div class="w-2/3"><div class="relative h-0.5 bg-gray-600"><div class="absolute right-0 -top-1 w-0 h-0 border-l-8 border-l-gray-600 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div></div></div></div><div class="text-center"><div class="inline-block bg-gradient-to-r from-azul-petroleo via-green-600 to-slate-500 text-white px-8 py-3 rounded-full font-bold text-xl">Solução Empresarial Completa</div></div></div>
                 </div>
                 <div class="grid grid-cols-3 gap-8">
-                    <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-azul-petroleo">
-                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4"><i class="fas fa-users text-2xl text-azul-petroleo"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Para Clientes</h3>
-                        <ul class="space-y-2 text-gray-600"><li class="flex items-start"><i class="fas fa-check-circle text-azul-petroleo mt-1 mr-2"></i><span>Solução completa da estratégia à operação</span></li><li class="flex items-start"><i class="fas fa-check-circle text-azul-petroleo mt-1 mr-2"></i><span>Tecnologia integrada com ERP e BPO</span></li></ul>
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-md border-t-4 border-blue-400">
+                        <div class="w-16 h-16 rounded-full bg-blue-900/70 flex items-center justify-center mb-4"><i class="fas fa-users text-2xl text-blue-300"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Para Clientes</h3>
+                        <ul class="space-y-2 text-gray-300"><li class="flex items-start"><i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i><span>Solução completa da estratégia à operação</span></li><li class="flex items-start"><i class="fas fa-check-circle text-blue-400 mt-1 mr-2"></i><span>Tecnologia integrada com ERP e BPO</span></li></ul>
                     </div>
-                    <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-verde-vibrante">
-                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4"><i class="fas fa-handshake text-2xl text-verde-vibrante"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Para Parceiros</h3>
-                        <ul class="space-y-2 text-gray-600"><li class="flex items-start"><i class="fas fa-check-circle text-verde-vibrante mt-1 mr-2"></i><span>Ampliação de portfólio de serviços</span></li><li class="flex items-start"><i class="fas fa-check-circle text-verde-vibrante mt-1 mr-2"></i><span>Aceleração de crescimento conjunto</span></li></ul>
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-md border-t-4 border-verde-vibrante">
+                        <div class="w-16 h-16 rounded-full bg-green-900/70 flex items-center justify-center mb-4"><i class="fas fa-handshake text-2xl text-green-300"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Para Parceiros</h3>
+                        <ul class="space-y-2 text-gray-300"><li class="flex items-start"><i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i><span>Ampliação de portfólio de serviços</span></li><li class="flex items-start"><i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i><span>Aceleração de crescimento conjunto</span></li></ul>
                     </div>
-                    <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-cinza-neutro">
-                        <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mb-4"><i class="fas fa-globe text-2xl text-cinza-neutro"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Para Mercado</h3>
-                        <ul class="space-y-2 text-gray-600"><li class="flex items-start"><i class="fas fa-check-circle text-cinza-neutro mt-1 mr-2"></i><span>Referência em soluções integradas</span></li><li class="flex items-start"><i class="fas fa-check-circle text-cinza-neutro mt-1 mr-2"></i><span>Posicionamento estratégico em Goiás</span></li></ul>
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-md border-t-4 border-cinza-neutro">
+                        <div class="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center mb-4"><i class="fas fa-globe text-2xl text-gray-300"></i></div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Para Mercado</h3>
+                        <ul class="space-y-2 text-gray-300"><li class="flex items-start"><i class="fas fa-check-circle text-gray-400 mt-1 mr-2"></i><span>Referência em soluções integradas</span></li><li class="flex items-start"><i class="fas fa-check-circle text-gray-400 mt-1 mr-2"></i><span>Posicionamento estratégico em Goiás</span></li></ul>
                     </div>
                 </div>
             </div>
-            <div class="footer footer-light">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-5" class="text-color">5 / 14</span>
-            </div>
-        </div>
 
-        <!-- Slide 6: Estrutura Societária -->
-        <div id="slide-6" class="slide slide-content-bg">
-            <div class="header-bar flex items-center justify-between px-16">
-                <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Li.Ve Logo" class="h-12 mr-4">
-                    <h1 class="text-white text-3xl font-bold">Estrutura Societária</h1>
-                </div>
-                <div class="text-gray-300 text-lg">Proposta de Negócio</div>
-            </div>
-            <div class="px-16 py-8 flex items-center">
-                <div class="w-1/2 pr-8">
-                    <div class="bg-white rounded-2xl p-8 shadow-lg">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Composição Societária</h3>
-                        <div style="height: 400px;"><canvas id="societaryChart"></canvas></div>
+            <div id="panel-6" class="tab-panel" hidden>
+                 <h2 class="text-4xl font-bold mb-2 text-white">Estrutura da Parceria</h2>
+                 <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
+
+                 <div class="flex items-center h-full">
+                    <div class="w-1/2 pr-8">
+                        <div class="bg-slate-800/50 rounded-2xl p-8 shadow-lg border border-slate-700">
+                            <h3 class="text-2xl font-bold mb-6 text-center text-white">Composição Societária</h3>
+                            <div style="height: 400px;"><canvas id="societaryChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 pl-8">
+                        <div class="space-y-6">
+                            <div class="company-card live-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-blue-400 rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">Li.Ve - 40%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Metodologias, marca, carteira de clientes</p><p class="text-gray-300"><strong>Justificativa:</strong> Liderança estratégica e ecossistema de parceiros</p></div>
+                            <div class="company-card ugestor-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-verde-vibrante rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">U-gestor - 35%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Sistema ERP, estrutura contábil, equipe técnica</p><p class="text-gray-300"><strong>Justificativa:</strong> Base tecnológica e estrutura operacional robusta</p></div>
+                            <div class="company-card up380-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-cinza-neutro rounded-full mr-3"></div><h4 class="text-xl font-bold text-white">UP380 - 25%</h4></div><p class="text-gray-300 mb-3"><strong>Aporte:</strong> Carteira de 100+ clientes, operação BPO</p><p class="text-gray-300"><strong>Justificativa:</strong> Base consolidada de clientes e operação estabelecida</p></div>
+                        </div>
                     </div>
                 </div>
-                <div class="w-1/2 pl-8">
-                    <div class="space-y-6">
-                        <div class="company-card live-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-azul-petroleo rounded-full mr-3"></div><h4 class="text-xl font-bold text-gray-800">Li.Ve - 40%</h4></div><p class="text-gray-600 mb-3"><strong>Aporte:</strong> Metodologias, marca, carteira de clientes</p><p class="text-gray-600"><strong>Justificativa:</strong> Liderança estratégica e ecossistema de parceiros</p></div>
-                        <div class="company-card ugestor-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-verde-vibrante rounded-full mr-3"></div><h4 class="text-xl font-bold text-gray-800">U-gestor - 35%</h4></div><p class="text-gray-600 mb-3"><strong>Aporte:</strong> Sistema ERP, estrutura contábil, equipe técnica</p><p class="text-gray-600"><strong>Justificativa:</strong> Base tecnológica e estrutura operacional robusta</p></div>
-                        <div class="company-card up380-card"><div class="flex items-center mb-4"><div class="w-4 h-4 bg-cinza-neutro rounded-full mr-3"></div><h4 class="text-xl font-bold text-gray-800">UP380 - 25%</h4></div><p class="text-gray-600 mb-3"><strong>Aporte:</strong> Carteira de 100+ clientes, operação BPO</p><p class="text-gray-600"><strong>Justificativa:</strong> Base de clientes consolidada e operação estabelecida</p></div>
+            </div>
+            
+            <div id="panel-14" class="tab-panel" hidden>
+                <div class="w-full max-w-6xl mx-auto">
+                    <h2 class="text-4xl font-bold mb-2 text-white">Conclusão e Recomendação</h2>
+                    <p class="text-lg text-gray-400 mb-12">Proposta de Negócio: Parceria Estratégica</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full">
+                            <h3 class="text-2xl font-bold mb-6 text-white"><i class="fas fa-chart-line text-verde-vibrante mr-3"></i>Síntese da Proposta</h3>
+                            <div class="space-y-4">
+                                <div class="bg-verde-vibrante/20 border-l-4 border-verde-vibrante rounded-lg p-4"><div class="flex justify-between items-center"><span class="text-base font-medium text-gray-200">Receita Anual Projetada</span><span class="text-xl font-bold text-verde-vibrante">R$ 6,24 milhões</span></div></div>
+                                <div class="bg-verde-vibrante/20 border-l-4 border-verde-vibrante rounded-lg p-4"><div class="flex justify-between items-center"><span class="text-base font-medium text-gray-200">EBITDA Estimado</span><span class="text-xl font-bold text-verde-vibrante">32,5%</span></div></div>
+                                <div class="bg-verde-vibrante/20 border-l-4 border-verde-vibrante rounded-lg p-4"><div class="flex justify-between items-center"><span class="text-base font-medium text-gray-200">Payback</span><span class="text-xl font-bold text-verde-vibrante">18 meses</span></div></div>
+                            </div>
+                        </div>
+                        <div class="bg-verde-vibrante/20 border-2 border-verde-vibrante/30 rounded-2xl p-8 h-full">
+                            <div class="text-center mb-6">
+                                <i class="fas fa-thumbs-up text-5xl text-verde-vibrante mb-4"></i>
+                                <h3 class="text-3xl font-bold mb-2 text-white">RECOMENDA-SE</h3>
+                                <p class="text-xl font-semibold" style="color: var(--verde-vibrante);">A IMPLEMENTAÇÃO</p>
+                            </div>
+                            <div class="bg-white/10 rounded-lg p-6">
+                                <h4 class="text-lg font-bold mb-3 text-white">Justificativa</h4>
+                                <p class="text-base leading-relaxed text-gray-200">A proposta apresenta <strong>viabilidade estratégica, financeira e operacional</strong> comprovada, com riscos controláveis e potencial de retorno atrativo para todas as partes.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-8 bg-blue-50 rounded-lg p-6"><h4 class="text-lg font-semibold text-blue-800 mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Localização Estratégica</h4><p class="text-blue-700">Novo CNPJ em Goiás aproveitando benefícios fiscais e posicionamento no Centro-Oeste</p></div>
                 </div>
             </div>
-            <div class="footer footer-light">
-                <span class="text-color text-xs opacity-70">Desenvolvido por Cléber Donato</span>
-                <span id="page-counter-6" class="text-color">6 / 14</span>
-            </div>
+
         </div>
         
-        <!-- O restante dos 14 slides continuaria aqui, seguindo a mesma estrutura e com os estilos atualizados -->
-        <!-- Por uma questão de brevidade, o código completo dos slides 7 a 14 foi omitido, mas está funcional na estrutura. -->
-
-    </div>
-
-    <!-- Controles de Navegação -->
-    <div class="nav-controls">
-        <button id="prevBtn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-        <button id="nextBtn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+        <div class="footer-credit">
+            Desenvolvido por Cléber Donato
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.slide');
-            const totalSlides = 14; // Total de slides
-            let currentSlide = 1;
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            let chartsInitialized = {};
 
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            // Flags para inicializar gráficos apenas uma vez
-            let chart6Initialized = false;
-            let chart9Initialized = false;
-            let chart11Initialized = false;
-            let chart12Initialized = false;
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Gerencia o estado 'active' do botão
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
 
-            function updateSlide(newSlideIndex) {
-                if (newSlideIndex < 1 || newSlideIndex > totalSlides) return;
+                    // CORREÇÃO: Lógica de abas trocada para usar o atributo 'hidden'
+                    // Esconde todos os painéis
+                    tabPanels.forEach(panel => {
+                        panel.hidden = true;
+                    });
 
-                const currentSlideElement = document.getElementById(`slide-${currentSlide}`);
-                if (currentSlideElement) {
-                    currentSlideElement.classList.remove('active');
-                }
-                
-                currentSlide = newSlideIndex;
-                const activeSlide = document.getElementById(`slide-${currentSlide}`);
-                if (activeSlide) {
-                    activeSlide.classList.add('active');
-                }
+                    // Mostra o painel alvo
+                    const targetPanelId = button.dataset.target;
+                    const targetPanel = document.getElementById(targetPanelId);
+                    if (targetPanel) {
+                        targetPanel.hidden = false;
+                    }
+                    
+                    initializeChartForPanel(targetPanelId);
+                });
+            });
 
-                prevBtn.disabled = currentSlide === 1;
-                nextBtn.disabled = currentSlide === totalSlides;
-                
-                // Inicializa o gráfico do slide se for a primeira vez que ele é exibido
-                switch(currentSlide) {
-                    case 6: if (!chart6Initialized) { initSocietaryChart(); chart6Initialized = true; } break;
-                    case 9: if (!chart9Initialized) { initFinancialCharts(); chart9Initialized = true; } break;
-                    case 11: if (!chart11Initialized) { initGanttChart(); chart11Initialized = true; } break;
-                    case 12: if (!chart12Initialized) { initComparisonChart(); chart12Initialized = true; } break;
+            function initializeChartForPanel(panelId) {
+                if (!panelId || chartsInitialized[panelId]) return;
+
+                switch(panelId) {
+                    case 'panel-6':
+                        initSocietaryChart();
+                        chartsInitialized[panelId] = true;
+                        break;
                 }
             }
-
-            prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
-            nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
-
-            updateSlide(1);
-
-            // --- Funções de Inicialização de Gráficos ---
-
+            
             function initSocietaryChart() {
                 const ctx = document.getElementById('societaryChart')?.getContext('2d');
                 if (!ctx) return;
@@ -372,7 +331,7 @@
                         labels: ['Li.Ve', 'U-gestor', 'UP380'],
                         datasets: [{
                             data: [40, 35, 25],
-                            backgroundColor: ['#06192a', '#00e800', '#64748b'],
+                            backgroundColor: ['#3b82f6', '#00e800', '#9ca3af'],
                             borderWidth: 0,
                             cutout: '60%'
                         }]
@@ -380,81 +339,33 @@
                     options: {
                         responsive: true, maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'bottom', labels: { padding: 20, font: { family: 'Poppins', size: 14, weight: '500' } } },
-                            tooltip: { callbacks: { label: (c) => `${c.label}: ${c.parsed}%` } }
+                            legend: { 
+                                position: 'bottom', 
+                                labels: { 
+                                    padding: 20, 
+                                    font: { family: 'Poppins', size: 14, weight: '500' }, 
+                                    color: '#e2e8f0'
+                                } 
+                            },
+                            tooltip: { 
+                                callbacks: { label: (c) => `${c.label}: ${c.parsed}%` },
+                                bodyColor: '#e2e8f0',
+                                titleColor: '#ffffff'
+                            }
                         }
                     }
                 });
             }
 
-            function initFinancialCharts() {
-                const revenueCtx = document.getElementById('revenueChart')?.getContext('2d');
-                if (revenueCtx) {
-                    new Chart(revenueCtx, {
-                        type: 'line',
-                        data: {
-                            labels: ['T1', 'T2', 'T3', 'T4'],
-                            datasets: [{
-                                label: 'Receita Trimestral (R$ milhões)',
-                                data: [1.2, 1.5, 1.7, 1.84],
-                                backgroundColor: 'rgba(0, 232, 0, 0.2)',
-                                borderColor: '#00e800',
-                                borderWidth: 3, tension: 0.3, fill: true,
-                                pointBackgroundColor: '#06192a', pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 6
-                            }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false }
-                    });
+            // Garante que o estado inicial está correto
+            const initialActiveButton = document.querySelector('.tab-btn.active');
+            if (initialActiveButton) {
+                const targetPanelId = initialActiveButton.dataset.target;
+                const targetPanel = document.getElementById(targetPanelId);
+                if (targetPanel) {
+                    targetPanel.hidden = false;
+                    initializeChartForPanel(targetPanelId);
                 }
-
-                const costCtx = document.getElementById('costChart')?.getContext('2d');
-                if(costCtx) {
-                    new Chart(costCtx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Pessoal', 'Tecnologia', 'Marketing', 'Administrativo', 'Outros'],
-                            datasets: [{
-                                data: [40, 10, 5, 7.5, 5],
-                                backgroundColor: ['#06192a', '#00e800', '#64748b', '#2dd4bf', '#94a3b8'],
-                                borderWidth: 0, hoverOffset: 10
-                            }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
-                    });
-                }
-            }
-            
-            function initGanttChart() {
-                const ganttCtx = document.getElementById('ganttChart')?.getContext('2d');
-                if(!ganttCtx) return;
-                new Chart(ganttCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Preparação', 'Due Diligence', 'Documentação', 'Governança', 'Integração', 'Comercial', 'Piloto', 'Lançamento', 'Expansão', 'Consolidação'],
-                        datasets: [
-                            { label: 'Fase 1', data: [1, 1, 2, 1, 0, 0, 0, 0, 0, 0], backgroundColor: '#06192a' },
-                            { label: 'Fase 2', data: [0, 0, 0, 0, 2, 1, 1, 0, 0, 0], backgroundColor: '#00e800' },
-                            { label: 'Fase 3', data: [0, 0, 0, 0, 0, 0, 0, 2, 2, 2], backgroundColor: '#64748b' }
-                        ]
-                    },
-                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } }, plugins: { legend: { display: false } } }
-                });
-            }
-
-            function initComparisonChart() {
-                const comparisonCtx = document.getElementById('comparisonChart')?.getContext('2d');
-                if(!comparisonCtx) return;
-                new Chart(comparisonCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Crescimento de Receita', 'Redução de Custos', 'Competitividade', 'Novos Mercados'],
-                        datasets: [
-                            { label: 'Proposta 3 Empresas', data: [150, 25, 90, 80], backgroundColor: '#00e800' },
-                            { label: 'Status Quo', data: [30, 0, 50, 20], backgroundColor: '#64748b' }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-                });
             }
         });
     </script>
